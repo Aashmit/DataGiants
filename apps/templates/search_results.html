@@ -1,0 +1,88 @@
+{% extends "layouts/base.html" %}
+{% block title %} Search Results {% endblock %}
+{% block stylesheets %}{% endblock stylesheets %}
+{% block content %}
+    <style>
+        .navbar {
+            background-color: #007bff;
+        }
+        .navbar-brand, .navbar-nav .nav-link {
+            color: white;
+        }
+        .dataset-card {
+            margin-top: 20px;
+            border: 1px solid #dee2e6; /* Adjust border color as needed */
+            border-radius: 5px;
+        }
+        .dataset-card-header {
+            background-color: #f8f9fa; /* Adjust background color as needed */
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6; /* Adjust border color as needed */
+            border-radius: 5px 5px 0 0;
+        }
+        .dataset-card-body {
+            padding: 20px;
+        }
+    </style>
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <h1>Search Results ({{ total_results }} found)</h1>
+
+    {% if prev_page_url %}
+    <a href="{{ prev_page_url }}">Previous Page</a>
+    {% endif %}
+    
+    {% for dataset in datasets %}
+      {% endfor %}
+    
+    {% if next_page_url %}
+    <a href="{{ next_page_url }}">Next Page</a>
+    {% endif %}
+
+    
+    {% for dataset in datasets %}
+    <div class="card dataset-card">
+      <div class="card-header dataset-card-header">
+        <h5 class="card-title">{{ dataset.title }}</h5>
+      </div>
+      <div class="card-body dataset-card-body">
+        <p class="card-text">Source Link: <a href="{{ dataset.metadata.source_link }}">{{ dataset.metadata.source_link }}</a></p>
+        <p class="card-text">File Format: {{ dataset.file_format }}</p>
+        <p class="card-text">Author: {{ dataset.author }}</p>
+        {% if dataset.description %}
+        <p class="card-text">Description: {{ dataset.description }}</p>
+        {% else %}
+        <p class="card-text">Description: Not available.</p>
+        {% endif %}
+        {% if dataset.updated %}
+        <p class="card-text">Last Updated: {{ dataset.updated }}</p>
+        {% else %}
+        <p class="card-text">Last Updated: Information not available.</p>
+        {% endif %}
+        {% if dataset.time_period %}
+        <p class="card-text">Time Period Covered: {{ dataset.time_period }}</p>
+        {% else %}
+        <p class="card-text">Time Period Covered: Information not available.</p>
+        {% endif %}
+        {% if dataset.area_covered %}
+        <p class="card-text">Area Covered: {{ dataset.area_covered }}</p>
+        {% else %}
+        <p class="card-text">Area Covered: Information not available.</p>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  
+    {% if not datasets %}
+    <div class="alert alert-warning">
+      No datasets found matching your search term. Please try a different search term.
+    </div>
+    {% endif %}
+
+<!-- Bootstrap JS (Optional - for dropdowns) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock content %}

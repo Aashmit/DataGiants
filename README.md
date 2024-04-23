@@ -1,36 +1,6 @@
-# [Black Dashboard Flask](https://appseed.us/product/black-dashboard/flask/)
-
-Open-source **[Flask Dashboard](https://appseed.us/admin-dashboards/flask/)** crafted on top of a modern `Bootstrap` design. Designed for those who like bold elements and beautiful websites, **Black Dashboard** is ready to help you create stunning websites and web apps. **Black Dashboard** is built with over 50 frontend individual elements, like buttons, inputs, navbars, nav tabs, cards, or alerts, giving you the freedom of choosing and combining.
-
-- 👉 [Black Dashboard Flask](https://appseed.us/product/black-dashboard/flask/) - `product page`
-- 👉 [Black Dashboard Flask](https://flask-black-dashboard.appseed-srv1.com/) - `LIVE Demo`
-  
-<br />
-
-## Features
-
-> `Have questions?` Contact **[Support](https://appseed.us/support/)** (Email & Discord) provided by **AppSeed**
-
-| Free Version                          | [PRO Version](https://appseed.us/product/black-dashboard-pro/flask/)          | [Custom Development](https://appseed.us/custom-development/) |  
-| --------------------------------------| --------------------------------------| --------------------------------------|
-| ✓ **Up-to-date dependencies**             | **Everything in Free**, plus:                                        | **Everything in PRO**, plus:          |
-| ✓ Best Practices                          | ✅ **Premium Bootstrap 5 Design**                                    | ✅ **1mo Custom Development**        | 
-| ✓ DB: SQLite, MySql                       | ✅ `OAuth` for Github                                                | ✅ **Team**: PM, Developer, Tester   |
-| ✓ DB Tools: ORM, Flask-Migrate            | ✅ `Extended User Model`                                             | ✅ Weekly Sprints                    |
-| ✓ Session-Based authentication            | ✅ `Users Roles`                                                     | ✅ Technical SPECS                   |
-| ✓ `Docker`                                | ✅ `Private REPO Access`                                             | ✅ Documentation                     |
-| ✓ `CI/CD` Flow via Render                 | ✅ **PRO Support** - [Email & Discord](https://appseed.us/support/)  | ✅ **30 days Delivery Warranty**     |
-| ✓ `Free Support`                          | ✅ Deployment Assistance                                             |  -                                   |
-| ---------------------------------         | ---------------------------------                                     | ---------------------------------  |
-| ✓ [LIVE Demo](https://flask-black-dashboard.appseed-srv1.com/)  | 🚀 [LIVE Demo](https://flask-black-dashboard-enh.appseed-srv1.com/) `PRO` | 🛒 `Order`: **[$3,999](https://appseed.gumroad.com/l/rocket-package)** (GUMROAD) |  
-
-![Black Dashboard Flask - Crafted by AppSeed.](https://github.com/app-generator/flask-black-dashboard/assets/51070104/0428a8aa-d095-4a49-9a6a-5466041f7cec)
-
-<br /> 
-
 ## ✅ Start in `Docker`
 
-> 👉 **Step 1** - Download the code from the GH repository (using `GIT`) 
+> 👉 **Step 1** - Download the code from the GH repository (using `GIT`)
 
 ```bash
 $ git clone https://github.com/app-generator/flask-black-dashboard.git
@@ -51,7 +21,7 @@ Visit `http://localhost:5085` in your browser. The app should be up & running.
 
 ## ✅ Create/Edit `.env` file
 
-The meaning of each variable can be found below: 
+The meaning of each variable can be found below:
 
 - `DEBUG`: if `True` the app runs in develoment mode
   - For production value `False` should be used
@@ -59,13 +29,13 @@ The meaning of each variable can be found below:
   - default value: `/static/assets`
 - `OAuth` via Github
   - `GITHUB_ID`=<GITHUB_ID_HERE>
-  - `GITHUB_SECRET`=<GITHUB_SECRET_HERE> 
+  - `GITHUB_SECRET`=<GITHUB_SECRET_HERE>
 
 <br />
 
 ## ✅ Manual Build
 
-> Download the code 
+> Download the code
 
 ```bash
 $ git clone https://github.com/app-generator/flask-black-dashboard.git
@@ -74,42 +44,9 @@ $ cd flask-black-dashboard
 
 <br />
 
-### 👉 Set Up for `Unix`, `MacOS` 
+### 👉 Set Up for `Windows`
 
-> Install modules via `VENV`  
-
-```bash
-$ virtualenv env
-$ source env/bin/activate
-$ pip3 install -r requirements.txt
-```
-
-<br />
-
-> Set Up Flask Environment
-
-```bash
-$ export FLASK_APP=run.py
-$ export FLASK_ENV=development
-```
-
-<br />
-
-> Start the app
-
-```bash
-$ flask run
-// OR
-$ flask run --cert=adhoc # For HTTPS server
-```
-
-At this point, the app runs at `http://127.0.0.1:5000/`. 
-
-<br />
-
-### 👉 Set Up for `Windows` 
-
-> Install modules via `VENV` (windows) 
+> Install modules via `VENV` (windows)
 
 ```
 $ virtualenv env
@@ -141,14 +78,14 @@ $ flask run
 $ flask run --cert=adhoc # For HTTPS server
 ```
 
-At this point, the app runs at `http://127.0.0.1:5000/`. 
+At this point, the app runs at `http://127.0.0.1:5000/`.
 
 <br />
 
-## ✅ Recompile SCSS  
+## ✅ Recompile SCSS
 
-The SCSS/CSS files used to style the Ui are saved in the `apps/static/assets` directory. 
-In order to update the Ui colors (primary, secondary) this procedure needs to be followed. 
+The SCSS/CSS files used to style the Ui are saved in the `apps/static/assets` directory.
+In order to update the Ui colors (primary, secondary) this procedure needs to be followed.
 
 ```bash
 $ yarn # install modules
@@ -157,7 +94,7 @@ $ vi apps/static/assets/scss/black-dashboard/custom/_variables.scss
 $ gulp # SCSS to CSS translation
 ```
 
-The `_variables.scss` content defines the `primary` and `secondary` colors: 
+The `_variables.scss` content defines the `primary` and `secondary` colors:
 
 ```scss
 $default:       #344675 !default; // EDIT for customization
@@ -211,7 +148,7 @@ The project is coded using blueprints, app factory pattern, dual configuration p
    |    |         |-- index.html            # Index page
    |    |         |-- 404-page.html         # 404 page
    |    |         |-- *.html                # All other pages
-   |    |    
+   |    |  
    |  config.py                             # Set up the app
    |    __init__.py                         # Initialize the app
    |
@@ -223,21 +160,4 @@ The project is coded using blueprints, app factory pattern, dual configuration p
    |-- ************************************************************************
 ```
 
-<br />
-
-## ✅ [Black Dashboard Flask](https://appseed.us/product/black-dashboard-pro/flask/) `PRO Version`
-
-> For more components, pages and priority on support, feel free to take a look at this amazing starter:
-
-Black Dashboard is a premium Bootstrap Design now available for download in Django. Made of hundred of elements, designed blocks, and fully coded pages, Black Dashboard PRO is ready to help you create stunning websites and web apps.
-
-- 👉 [Black Dashboard PRO Flask](https://appseed.us/product/black-dashboard-pro/flask/) - product page
-  - ✅ `Enhanced UI` - more pages and components
-  - ✅ `Priority` on support
-
-![Black Dashboard PRO - Full-Stack Starter generated by AppSeed.](https://user-images.githubusercontent.com/51070104/169471630-e96cec9b-ef57-4c06-9b36-62b9bbf255f3.png)
-
-<br />
-
----
 [Black Dashboard Flask](https://appseed.us/product/black-dashboard/flask/) - Open-source starter generated by **[AppSeed](https://appseed.us)**.
