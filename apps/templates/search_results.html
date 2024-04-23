@@ -3,12 +3,6 @@
 {% block stylesheets %}{% endblock stylesheets %}
 {% block content %}
     <style>
-        .navbar {
-            background-color: #007bff;
-        }
-        .navbar-brand, .navbar-nav .nav-link {
-            color: white;
-        }
         .dataset-card {
             margin-top: 20px;
             border: 1px solid #dee2e6; /* Adjust border color as needed */
@@ -26,20 +20,9 @@
     </style>
 
 <!-- Main Content -->
+<div class="content">
 <div class="container mt-5">
-    <h1>Search Results ({{ total_results }} found)</h1>
-
-    {% if prev_page_url %}
-    <a href="{{ prev_page_url }}">Previous Page</a>
-    {% endif %}
-    
-    {% for dataset in datasets %}
-      {% endfor %}
-    
-    {% if next_page_url %}
-    <a href="{{ next_page_url }}">Next Page</a>
-    {% endif %}
-
+    <h1>Search Results ({{ total_results }} datasets found)</h1>
     
     {% for dataset in datasets %}
     <div class="card dataset-card">
@@ -47,7 +30,10 @@
         <h5 class="card-title">{{ dataset.title }}</h5>
       </div>
       <div class="card-body dataset-card-body">
-        <p class="card-text">Source Link: <a href="{{ dataset.metadata.source_link }}">{{ dataset.metadata.source_link }}</a></p>
+        <p class="card-text">Source Link:
+          <button class="glow-on-hover" role="button"><a href="{{ dataset.metadata.source_link }}">
+            Click to go to dataset</a></button>
+          </p>
         <p class="card-text">File Format: {{ dataset.file_format }}</p>
         <p class="card-text">Author: {{ dataset.author }}</p>
         {% if dataset.description %}
@@ -79,7 +65,7 @@
       No datasets found matching your search term. Please try a different search term.
     </div>
     {% endif %}
-
+</div>
 <!-- Bootstrap JS (Optional - for dropdowns) -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
