@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request,url_for
+from flask import Flask, render_template, request,url_for,Blueprint,jsonify
+from flask_login import current_user,login_required
+from apps.authentication.models import Dataset,Users
 import kaggle
 from bs4 import BeautifulSoup
 import requests
+from apps import db
 
+bp = Blueprint('Dataset',__name__)
 app = Flask(__name__)
-
 # Mock dataset data (optional, you can remove this if you have real data)
 datasets = [
     {'source_name': 'Source A (Nepal)', 'source_link': 'http://example.com/sourceA', 'file_format': 'CSV', 'author': 'Author A', 'description': 'Dataset A description about Nepal', 'updated': '2024-01-01', 'time_period': '2020-2022', 'area_covered': 'Nepal', 'topic': 'Engineering'},
@@ -51,49 +54,6 @@ def search_kaggle_datasets(query):
             datasets_with_metadata.append(dataset_with_metadata)
 
     return datasets_with_metadata
-
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/search', methods=['GET', 'POST'])
-def search():
-    search_term = request.args.get('search')  # Access search term from query string
-    page = int(request.args.get('page', 1)) 
-    if request.method == 'POST':
-        search_term = request.form['search']
-
-        # Search local (mock) datasets
-        local_filtered_datasets = [dataset for dataset in datasets if search_term.lower() in dataset['source_name'].lower()]  # Modified comparison logic
-
-        # Search Kaggle datasets
-        kaggle_datasets = search_kaggle_datasets(search_term)  # Modified search term
-
-# Combine results from all sources
-        all_datasets = local_filtered_datasets + kaggle_datasets
-        total_results = len(all_datasets)
-
-        # Pagination logic (assuming results per page is 5)
-        page = int(request.args.get('page', 1))  # Get current page from query string (default 1)
-        results_per_page = 5
-        start_index = (page - 1) * results_per_page
-        end_index = start_index + results_per_page
-        page_data = all_datasets[start_index:end_index]  # Get results for current page
-
-        # Pagination links (improved URL construction)
-        prev_page_url = None
-        next_page_url = None
-        if page > 1:
-            prev_page_url = url_for('search', page=page - 1)  # Use `url_for` for correct URLs
-        if total_results > end_index:
-            next_page_url = url_for('search', page=page + 1)
-
-        if not all_datasets:
-            print("No search results found for", search_term)
-            return render_template('search_results.html', datasets=[], message="No datasets found matching your search term.")
-
-        return render_template('search_results.html', datasets=page_data, total_results=total_results, prev_page_url=prev_page_url, next_page_url=next_page_url)
-    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

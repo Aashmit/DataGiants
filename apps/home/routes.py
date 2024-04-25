@@ -1,9 +1,9 @@
-from flask import render_template, request,url_for
+from flask import render_template, request,url_for,Blueprint,jsonify
 from flask_login import login_required
+from flask_login import current_user,login_required
+from apps.authentication.models import Dataset,Users,db 
 from jinja2 import TemplateNotFound
 from apps.dataset_search.dataset import search_kaggle_datasets,get_dataset_metadata,datasets
-
-# Import the existing blueprint
 from apps.home import blueprint
 
 # Modify the existing routes to include dataset search functionality
@@ -55,10 +55,55 @@ def search():
         return render_template('search_results.html', total_results=total_results,datasets=all_datasets)
     else:
         # Handle GET request (render search form)
-        return render_template('search_form.html')
+        return render_template('search.html')
+    
+@blueprint.route('/save_dataset', methods=['POST'])
+@login_required
+def save_dataset():
+    try:
+        data = request.json
+        dataset_id = data['dataset_id']
+        dataset_name = data['dataset_name']
+        dataset_link = data['dataset_link']
+
+        return jsonify({'message': 'Dataset saved successfully'}), 200
+    except KeyError:
+        return jsonify({'error': 'Missing dataset information'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
     
 
-# Helper function to extract current page name from request
+@blueprint.route('/remove_dataset', methods=['POST'])
+@login_required   
+def remove_dataset():
+    if request.method == 'POST':
+        # Get the dataset ID from the request
+        dataset_id = request.json.get('dataset_id')
+
+        # Find the dataset in the database
+        dataset = Dataset.query.get(dataset_id)
+
+        if dataset:
+            # Check if the dataset belongs to the current user
+            if dataset.user_id == current_user.id:
+                # Remove the dataset from the database
+                db.session.delete(dataset)
+                db.session.commit()
+                return jsonify({'message': 'Dataset removed successfully'}), 200
+            else:
+                return jsonify({'error': 'Unauthorized access to remove dataset'}), 403
+        else:
+            return jsonify({'error': 'Dataset not found'}), 404
+    else:
+        return jsonify({'error': 'Method not allowed'}), 405
+
+
+@blueprint.route('/pinned_datasets')
+def pinned_datasets():
+    # Assuming SavedDataset is your SQLAlchemy model
+    saved_datasets = Dataset.query.all()
+    return render_template('pinned_datasets.html', datasets=saved_datasets)
+
 def get_segment(request):
     try:
         segment = request.path.split('/')[-1]

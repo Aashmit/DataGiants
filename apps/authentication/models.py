@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from flask_login import UserMixin
 
 from sqlalchemy.orm import relationship
@@ -20,7 +15,7 @@ class Users(db.Model, UserMixin):
     username      = db.Column(db.String(64), unique=True)
     email         = db.Column(db.String(64), unique=True)
     password      = db.Column(db.LargeBinary)
-
+    saved_datasets= db.relationship('Dataset',backref='user')
     oauth_github  = db.Column(db.String(100), nullable=True)
 
     def __init__(self, **kwargs):
@@ -41,6 +36,12 @@ class Users(db.Model, UserMixin):
         return str(self.username)
 
 
+class Dataset(db.Model):
+    id = db.Column(db.Integer,primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
+    dataset_name=db.Column(db.String(255))
+    dataset_link= db.Column(db.String(255))
+    
 @login_manager.user_loader
 def user_loader(id):
     return Users.query.filter_by(id=id).first()
