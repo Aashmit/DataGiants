@@ -1,7 +1,7 @@
 from flask import render_template, request,url_for,Blueprint,jsonify
 from flask_login import login_required
 from flask_login import current_user,login_required
-from apps.authentication.models import Dataset,Users,db 
+from apps.authentication.models import Dataset,Users,db,Notification 
 from jinja2 import TemplateNotFound
 from apps.dataset_search.dataset import search_kaggle_datasets,get_dataset_metadata,datasets
 from apps.home import blueprint
@@ -70,6 +70,10 @@ def save_dataset():
         new_dataset = Dataset(dataset_name=dataset_name, dataset_link=dataset_link, user_id=current_user.id)
         db.session.add(new_dataset)
         db.session.commit()
+        # Create a notification
+        notification = Notification(message='Dataset saved successfully', user_id=current_user.id)
+        db.session.add(notification)
+        db.session.commit()
 
         return jsonify({'message': 'Dataset saved successfully'}), 200
     except KeyError:
@@ -95,6 +99,9 @@ def remove_dataset():
                 # Remove the dataset from the database
                 db.session.delete(dataset)
                 db.session.commit()
+                notification = Notification(message='Dataset removed successfully', user_id=current_user.id)
+                db.session.add(notification)
+                db.session.commit()
                 return jsonify({'message': 'Dataset removed successfully'}), 200
             else:
                 return jsonify({'error': 'Unauthorized access to remove dataset'}), 403
@@ -110,6 +117,13 @@ def pinned_datasets():
     saved_datasets = Dataset.query.all()
     print(saved_datasets)
     return render_template('pinned_datasets.html', datasets=saved_datasets)
+
+@blueprint.route('/notifications')
+@login_required
+def notifications():
+    # Retrieve notifications for the current user
+    user_notifications = Notification.query.filter_by(user_id=current_user.id).order_by(Notification.timestamp.desc()).all()
+    return render_template('notifications.html', notifications=user_notifications)
 
 def get_segment(request):
     try:

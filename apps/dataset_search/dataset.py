@@ -5,6 +5,8 @@ import kaggle
 from bs4 import BeautifulSoup
 import requests
 from apps import db
+import yfinance as yf
+import matplotlib.pyplot as plt
 
 bp = Blueprint('Dataset',__name__)
 app = Flask(__name__)
@@ -54,6 +56,7 @@ def search_kaggle_datasets(query):
             datasets_with_metadata.append(dataset_with_metadata)
 
     return datasets_with_metadata
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-
+from datetime import datetime
 from sqlalchemy.orm import relationship
 from flask_dance.consumer.storage.sqla import OAuthConsumerMixin
 
@@ -41,6 +41,12 @@ class Dataset(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
     dataset_name=db.Column(db.String(255))
     dataset_link= db.Column(db.String(255))
+
+class Notification(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    message = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    user_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
     
 @login_manager.user_loader
 def user_loader(id):
