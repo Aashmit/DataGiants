@@ -5,6 +5,7 @@ from apps.authentication.models import Dataset,Users,db
 from jinja2 import TemplateNotFound
 from apps.dataset_search.dataset import search_kaggle_datasets,get_dataset_metadata,datasets
 from apps.home import blueprint
+from apps import db
 
 # Modify the existing routes to include dataset search functionality
 @blueprint.route('/index')
@@ -62,14 +63,19 @@ def search():
 def save_dataset():
     try:
         data = request.json
-        dataset_id = data['dataset_id']
         dataset_name = data['dataset_name']
         dataset_link = data['dataset_link']
+
+        # Create a new Dataset object and add it to the database session
+        new_dataset = Dataset(dataset_name=dataset_name, dataset_link=dataset_link, user_id=current_user.id)
+        db.session.add(new_dataset)
+        db.session.commit()
 
         return jsonify({'message': 'Dataset saved successfully'}), 200
     except KeyError:
         return jsonify({'error': 'Missing dataset information'}), 400
     except Exception as e:
+        print(e)
         return jsonify({'error': str(e)}), 500
     
 
@@ -100,8 +106,9 @@ def remove_dataset():
 
 @blueprint.route('/pinned_datasets')
 def pinned_datasets():
-    # Assuming SavedDataset is your SQLAlchemy model
+    
     saved_datasets = Dataset.query.all()
+    print(saved_datasets)
     return render_template('pinned_datasets.html', datasets=saved_datasets)
 
 def get_segment(request):

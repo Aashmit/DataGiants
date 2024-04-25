@@ -104,6 +104,13 @@ def logout():
     return redirect(url_for('authentication_blueprint.login'))
 
 
+@blueprint.route('/pinned_datasets')
+def pinned_datasets():
+    
+    saved_datasets = Dataset.query.all()
+    print(saved_datasets)
+    return render_template('pinned_datasets.html', datasets=saved_datasets)
+
 # Errors
 
 @login_manager.unauthorized_handler
