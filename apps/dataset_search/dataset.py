@@ -21,7 +21,7 @@ def get_dataset_metadata(dataset_url):
     soup = BeautifulSoup(response.content, 'html.parser')
 
     metadata = {}
-
+    
     # Extract metadata from the dataset page
     source_name_elem = soup.find(class_='ProfileHeader__displayName')
     metadata['source_name'] = source_name_elem.text.strip() if source_name_elem else None
