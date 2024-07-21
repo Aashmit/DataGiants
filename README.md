@@ -5,4 +5,4 @@ Datagiants is a Flask based web application that was aimed to be a search engine
 * Save/Remove Datasets
 * Enlist various sources for Datasets
 
-The backend was built using Flask and the frontend was built using the template from Appseed.us .
+The backend was built using Flask and the frontend was built using the template made from SAppseed.us .
